@@ -47,7 +47,11 @@ const Editor = ({ displayName, onChange }: EditorProps) => {
   }, [code]);
 
   useEffect(() => {
-    onChange(code);
+    const timer = setTimeout(() => {
+      onChange(code);
+    }, 300);
+
+    return () => clearTimeout(timer);
   }, [code, onChange]);
 
   return (
