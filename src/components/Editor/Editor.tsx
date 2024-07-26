@@ -1,62 +1,85 @@
-import React, { useState, useRef, useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import styles from "./Editor.module.css";
+import { MdOpenInFull, MdCloseFullscreen } from "react-icons/md";
 import { syntaxHighlight } from "../../utils";
 
-const Editor: React.FC = () => {
-  const [code, setCode] = useState<string>(`<script>
-    console.log("hello world")
-</script>`);
+interface EditorProps {
+  displayName: string;
+  onChange: (code: string) => void;
+}
+
+const Editor = ({ displayName, onChange }: EditorProps) => {
+  const [code, setCode] = useState(
+    displayName === "HTML"
+      ? "<!DOCTYPE html>\n<html>\n  <head>\n    <title>My HTML Document</title>\n  </head>\n  <body>\n    <h1>Hello, world!</h1>\n  </body>\n</html>"
+      : displayName === "CSS"
+      ? "/* Add your CSS here */"
+      : "/* Add your JavaScript here */"
+  );
   const [highlightedCode, setHighlightedCode] = useState<string>("");
+  const [open, setOpen] = useState(true);
+
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const outputRef = useRef<HTMLDivElement>(null);
+
+  const handleScroll = () => {
+    if (textareaRef.current && outputRef.current) {
+      outputRef.current.scrollTop = textareaRef.current.scrollTop;
+      outputRef.current.scrollLeft = textareaRef.current.scrollLeft;
+    }
+  };
+
+  useEffect(() => {
+    const textarea = textareaRef.current;
+    if (textarea) {
+      textarea.addEventListener("scroll", handleScroll);
+    }
+
+    return () => {
+      if (textarea) {
+        textarea.removeEventListener("scroll", handleScroll);
+      }
+    };
+  }, []);
 
   useEffect(() => {
     setHighlightedCode(syntaxHighlight(code));
   }, [code]);
 
-  const handleCodeChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setCode(e.target.value);
-  };
-
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    if (e.key === "Tab") {
-      e.preventDefault();
-      const textarea = textareaRef.current;
-      if (textarea) {
-        const start = textarea.selectionStart;
-        const end = textarea.selectionEnd;
-
-        const newCode = code.substring(0, start) + "  " + code.substring(end);
-        setCode(newCode);
-
-        setTimeout(() => {
-          textarea.selectionStart = textarea.selectionEnd = start + 2;
-        }, 0);
-      }
-    }
-  };
+  useEffect(() => {
+    onChange(code);
+  }, [code, onChange]);
 
   return (
-    <div className={styles.editor}>
-      <div className={styles.lineNumbers}>
-        {code.split("\n").map((_, index) => (
-          <div key={index} className={styles.lineNumber}>
-            {index + 1}
-          </div>
-        ))}
+    <div
+      className={styles.editorContainer}
+      style={{
+        flexGrow: open ? 1 : 0,
+      }}
+    >
+      <div className={styles.editorHeader}>
+        <p>{displayName}</p>
+        <button
+          type="button"
+          className={styles.expandCollapseBtn}
+          onClick={() => setOpen((prev) => !prev)}
+        >
+          {open ? <MdCloseFullscreen /> : <MdOpenInFull />}
+        </button>
       </div>
-      <div className={styles.codeWrapper}>
-        <div
-          className={styles.highlightedCode}
-          dangerouslySetInnerHTML={{ __html: highlightedCode }}
-        />
+      <div className={styles.editor}>
         <textarea
-          ref={textareaRef}
-          className={styles.codeArea}
-          value={code}
-          onChange={handleCodeChange}
-          onKeyDown={handleKeyDown}
           spellCheck="false"
-        />
+          ref={textareaRef}
+          value={code}
+          onChange={(e) => setCode(e.target.value)}
+        ></textarea>
+        <div
+          ref={outputRef}
+          className={styles.editorOutput}
+          spellCheck="false"
+          dangerouslySetInnerHTML={{ __html: highlightedCode }}
+        ></div>
       </div>
     </div>
   );

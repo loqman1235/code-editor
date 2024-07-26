@@ -12,12 +12,12 @@
 
 :root {
   /* COLOR PALETTE START */
-  --bg-color: #1c1c27;
-  --bg-dark-color: #19151e;
-  --foreground-color: #303247;
-  --text-color: #ededed;
-  --text-muted: #6b6f92;
-  --border-color: #212231;
+  --bg-color: hsl(240, 16%, 13%);
+  --bg-dark-color: hsl(240, 16%, 10%);
+  --foreground-color: hsl(240, 16%, 18%);
+  --text-color: hsl(0, 0%, 80%);
+  --text-muted: hsl(234, 15%, 70%);
+  --border-color: hsl(235, 18%, 26%);
   /* COLOR PALETTE END */
 
   --main-font-family: "Roboto", sans-serif;
@@ -32,6 +32,7 @@ html {
 body {
   background: var(--bg-color);
   color: var(--text-color);
+  height: 100vh;
 }
 
 button {
@@ -44,27 +45,39 @@ button {
   justify-content: center;
 }
 
-/* Style scrollbar */
-::-webkit-scrollbar {
-  width: 6px;
-}
-
-::-webkit-scrollbar-track {
-  background: var(--bg-dark-color);
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--foreground-color);
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--text-color);
-}
-
 /* Syntax highlighting colors */
 .highlight-tags {
-  color: #ff79c6;
+  color: #ff5370;
 }
 .highlight-attributes {
   color: #50fa7b;
+}
+
+.highlight-strings {
+  color: #f78c6c;
+}
+
+.highlight-comments {
+  color: #637777;
+}
+
+.container {
+  height: 100vh;
+  overflow: hidden;
+}
+
+.section {
+  width: 100%;
+  height: 50vh;
+}
+
+.top-section {
+  display: flex;
+}
+
+.section iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  background-color: white;
 }
