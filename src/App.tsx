@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Editor } from "./components/Editor";
+import { CodeEditor } from "./components/CodeEditor";
 
 const App = () => {
   const [htmlCode, setHtmlCode] = useState<string>("");
@@ -22,9 +22,9 @@ const App = () => {
   return (
     <div className="container">
       <div className="section top-section">
-        <Editor displayName="HTML" onChange={setHtmlCode} />
-        <Editor displayName="CSS" onChange={setCssCode} />
-        <Editor displayName="JS" onChange={setJsCode} />
+        <CodeEditor displayName="html" onChange={setHtmlCode} />
+        <CodeEditor displayName="css" onChange={setCssCode} />
+        <CodeEditor displayName="javascript" onChange={setJsCode} />
       </div>
       <div className="section">
         <iframe title="output" srcDoc={getCombinedCode()} />

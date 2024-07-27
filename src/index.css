@@ -12,8 +12,8 @@
 
 :root {
   /* COLOR PALETTE START */
-  --bg-color: hsl(240, 16%, 13%);
-  --bg-dark-color: hsl(240, 16%, 10%);
+  --bg-color: hsl(0, 0%, 8%);
+  --bg-dark-color: hsl(0, 0%, 7%);
   --foreground-color: hsl(240, 16%, 18%);
   --text-color: hsl(0, 0%, 80%);
   --text-muted: hsl(234, 15%, 70%);
@@ -48,6 +48,7 @@ button {
 /* Syntax highlighting colors */
 .highlight-tags {
   color: #ff5370;
+  font-weight: 600;
 }
 .highlight-attributes {
   color: #50fa7b;

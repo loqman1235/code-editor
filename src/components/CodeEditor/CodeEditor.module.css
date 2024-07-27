@@ -1,0 +1,47 @@
+.editorContainer {
+  flex-grow: 1;
+  flex-basis: 0;
+  height: 100%;
+}
+
+.editorContainer:nth-child(2) {
+  padding: 0 16px;
+}
+
+.editorHeader {
+  width: 100%;
+  background-color: var(--bg-dark-color);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+  color: var(--text-muted);
+  height: 40px;
+}
+
+.editorHeader > p {
+  color: var(--text-color);
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.expandCollapseBtn {
+  background: none;
+  outline: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  color: var(--text-muted);
+  transition: all 0.2s ease;
+}
+
+.expandCollapseBtn:hover {
+  color: var(--text-color);
+}
+
+.editor {
+  /* position: relative; */
+  width: 100%;
+  height: calc(100% - 40px);
+  overflow: hidden;
+}
